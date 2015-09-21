@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9971ed78-7f50-4470-af4c-eed036dc1967" name="Default" comment="bugs fixed 4">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/util/IConverter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/util/IValidator.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/util/Builder.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/util/FilmBeanToFilmConverter.java" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/util/FilmConverter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/util/Validator.java" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/util/Validator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ant.xml" afterPath="$PROJECT_DIR$/.idea/ant.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/index.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/index.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/main.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="9971ed78-7f50-4470-af4c-eed036dc1967" name="Default" comment="bugs fixed 4" />
     <ignored path="acvelon-trainee-project.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -42,8 +32,8 @@
       <file leaf-file-name="Validator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/springapp/mvc/util/Validator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7457627">
-              <caret line="26" column="9" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.092009686">
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -722,7 +712,7 @@
       <option name="number" value="Default" />
       <updated>1442830479153</updated>
       <workItem from="1442830480755" duration="7441000" />
-      <workItem from="1442839747125" duration="6064000" />
+      <workItem from="1442839747125" duration="6614000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1442838972688</created>
@@ -758,7 +748,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13505000" />
+    <option name="totallyTimeSpent" value="14055000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="47" y="23" width="1233" height="775" extended-state="0" />
@@ -1046,8 +1036,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/springapp/mvc/util/Validator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7457627">
-          <caret line="26" column="9" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.092009686">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding />
         </state>
       </provider>
