@@ -25,6 +25,11 @@ public class FilmController {
     @Autowired
     private Validator filmValidator;
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String getIndex() {
+        return "index";
+    }
+
     @RequestMapping(value = "/films", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
