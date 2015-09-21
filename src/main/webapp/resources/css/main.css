@@ -1,0 +1,83 @@
+.friends-list {
+    max-width: 600px;
+    margin-top: 10%;
+    margin-left: 20%;
+}
+
+.background {
+    background: url("../images/337674.jpg") no-repeat;
+    background-size: cover;
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+.footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5%;
+}
+
+.footer .footer-text {
+    margin-left: 42%;
+    color: #1b6d85;
+}
+
+.friends-list .buttons-group {
+    margin-left: 30%;
+}
+
+.friends-list .buttons-group button {
+    width: 17%;
+    display: inline;
+    margin-bottom: 5%;
+}
+
+.friends-list .focus-color {
+    background-color: #1b6d85;
+}
+
+.friends-list .btn-default {
+    border-color: transparent;
+    color: #1b6d85;
+}
+
+.friends-list .list-group-item {
+    background-color: transparent;
+}
+
+.non-visible {
+    display: none;
+}
+
+.modal {
+    color: #1b6d85;
+}
+
+.friends-list table {
+    color: #31b0d5;
+}
+
+#films {
+    height: 350px;
+    overflow: auto;
+}
+
+thead > tr, tbody {
+    display: block;
+}
+
+.border-error {
+    border-color: #b81900;
+}
+
+.border-success {
+    border-color: #4cae4c;
+}
+
+.friends-list table td, th {
+    word-wrap: break-word;
+    width: 100px;
+    text-align: center;
+}
+
