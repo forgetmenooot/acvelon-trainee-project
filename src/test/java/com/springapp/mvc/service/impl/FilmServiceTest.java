@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Y. Vovk on 19.09.15.
  * <p/>
- * Services covering only
+ * Services' coverage only
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = SpringockitoContextLoader.class,

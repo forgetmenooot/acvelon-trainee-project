@@ -3,8 +3,6 @@ package com.springapp.mvc.util;
 import com.springapp.mvc.bean.FilmBean;
 import com.springapp.mvc.domain.Film;
 import com.springapp.mvc.exception.ValidatorException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,8 +10,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Validator {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(Validator.class);
 
     public Film validate(FilmBean obj) {
         Builder builder = new Builder();
@@ -45,6 +41,6 @@ public class Validator {
             throw new ValidatorException(error);
         }
 
-        return FilmBeanToFilmConverter.converter(obj);
+        return FilmBeanToFilmConverter.convert(obj);
     }
 }

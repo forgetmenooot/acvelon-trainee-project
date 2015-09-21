@@ -16,7 +16,7 @@ public class FilmBeanToFilmConverter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FilmBeanToFilmConverter.class);
 
-    public static Film converter(FilmBean bean) {
+    public static Film convert(FilmBean bean) {
         Film film = new Film();
 
         film.setId((Integer.parseInt(bean.getId())));
