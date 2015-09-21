@@ -5,5 +5,5 @@ package com.springapp.mvc.util;
  */
 public interface IConverter<T> {
 
-
+    T convert();
 }

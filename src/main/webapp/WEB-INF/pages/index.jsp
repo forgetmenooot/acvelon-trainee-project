@@ -64,12 +64,13 @@
                         </div>
                         <div class="form-group">
                             <label for="film-date-seen">Date seen:</label>
-                            <input type="number" class="form-control" id="film-date-seen" readonly="readonly">
+                            <input type="text" class="form-control" id="film-date-seen" readonly>
                         </div>
                         <div class="form-group">
                             <label for="film-review">Review:</label>
                             <textarea class="form-control" rows="3" id="film-review"></textarea>
                         </div>
+
                     </div>
                 </div>
 

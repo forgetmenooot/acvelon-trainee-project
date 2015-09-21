@@ -5,5 +5,5 @@ package com.springapp.mvc.util;
  */
 public interface IValidator<T> {
 
-    IConverter<T> validate(T obj);
+    T validate();
 }

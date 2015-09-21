@@ -58,7 +58,7 @@ $(document).ready(function () {
     $('#edit-modal').on('show.bs.modal', function () {
         var checkedCount = $('input:checkbox:checked').length;
         if (checkedCount > 1) {
-           getWarnPage();
+            getWarnPage();
         } else if (checkedCount == 1) {
             getEditPage();
         } else {
@@ -67,9 +67,11 @@ $(document).ready(function () {
     });
 
     function getWarnPage() {
-        $('#modal-text').text("Please, select just one row to be edited!");
+        $('#modal-text').addClass('non-visible');
         $('#btn-save').addClass('non-visible');
         $('#btn-add').addClass('non-visible');
+        $('#error').removeClass('non-visible');
+        $('#error').text("Please, select just one row to be edited!");
     }
 
     function getEditPage() {
@@ -77,13 +79,12 @@ $(document).ready(function () {
         $.ajax({
             url: "/film/" + id,
             success: function (data) {
-                $('film-name').val(data.name);
-                $('film-genre').val(data.genre);
-                $('film-mark').val(data.mark);
-                $('film-year').val(data.year);
-                $('film-date-seen').val(data.dateSeen);
-                $('film-review').val(data.review);
-                enableEvents();
+                $('#film-name').val(data.name);
+                $('#film-genre').val(data.genre);
+                $('#film-mark').val(data.mark);
+                $('#film-year').val(data.year);
+                $('#film-date-seen').val(data.dateSeen);
+                $('#film-review').val(data.review);
                 $('#btn-add').addClass('non-visible');
             },
             timeout: 10000
@@ -91,15 +92,32 @@ $(document).ready(function () {
     }
 
     function getAddPage() {
-        enableEvents();
         $('#btn-save').addClass('non-visible');
     }
 
     function cleanModalAndRefresh() {
-        $('#modal-text').empty();
+        $('#film-name').val('');
+        $('#film-genre').val('');
+        $('#film-mark').val('');
+        $('#film-year').val('');
+        $('#film-date-seen').val('');
+        $('#film-review').val('');
         $('#error').empty();
         $('#btn-save').removeClass('non-visible');
         $('#btn-add').removeClass('non-visible');
+        $('#modal-text').removeClass('non-visible');
+        $('#film-name').removeClass('border-error');
+        $('#film-genre').removeClass('border-error');
+        $('#film-mark').removeClass('border-error');
+        $('#film-year').removeClass('border-error');
+        $('#film-date-seen').removeClass('border-error');
+        $('#film-review').removeClass('border-error');
+        $('#film-name').removeClass('border-success');
+        $('#film-genre').removeClass('border-success');
+        $('#film-mark').removeClass('border-success');
+        $('#film-year').removeClass('border-success');
+        $('#film-date-seen').removeClass('border-success');
+        $('#film-review').removeClass('border-success');
         $('#error').addClass('non-visible');
         $('#edit-modal').modal('hide');
         refresh();
@@ -125,11 +143,12 @@ $(document).ready(function () {
 
     $('#btn-save').click(function () {
         var film = createFilmAndReturn($('input:checkbox:checked').attr('id'));
-        var name = $('#film-name').val();
-        var genre = $('#film-genre').val();
+        var name = $.trim($('#film-name').val());
+        var genre = $.trim($('#film-genre').val());
         var mark = $('#film-mark').val();
         var year = $('#film-year').val();
-        if (validate(name, genre, mark, year, -1)) {
+        var review = $.trim($('#film-review').val());
+        if (validate(name, genre, mark, year, -1, review)) {
             $.ajax({
                 type: "POST",
                 url: "/film/update",
@@ -152,12 +171,13 @@ $(document).ready(function () {
 
     $('#btn-add').click(function () {
         var film = createFilmAndReturn(-1);
-        var name = $('#film-name').val();
-        var genre = $('#film-genre').val();
+        var name = $.trim($('#film-name').val());
+        var genre = $.trim($('#film-genre').val());
         var mark = $('#film-mark').val();
         var year = $('#film-year').val();
         var date_seen = $('#film-date-seen').val();
-        if (validate(name, genre, mark, year, date_seen)) {
+        var review = $.trim($('#film-review').val());
+        if (validate(name, genre, mark, year, date_seen, review)) {
             $.ajax({
                 type: "POST",
                 url: "/film",
@@ -178,45 +198,35 @@ $(document).ready(function () {
         }
     });
 
-    function enableEvents() {
-        $('#film-date-seen').datepicker({dateFormat: "yy-mm-dd", maxDate: "+1w"});
-
-        $('#film-name').keypress(function (e) {
-            if ($('#film-name').val().length > 44) {
-                e.preventDefault();
-            }
-        });
-
-        $('#film-genre').keypress(function (e) {
-            if ($('#film-genre').val().length > 44) {
-                e.preventDefault();
-            }
-        });
-
-        $('#film-review').keypress(function (e) {
-            if ($('#film-review').val().length > 399) {
-                e.preventDefault();
-            }
-        });
-    }
+    $('#film-date-seen').datepicker({dateFormat: "yy-mm-dd", maxDate: "+1w"});
 
     $('#btn-cancel, #btn-close').click(function () {
         cleanModalAndRefresh();
     });
 
-    function validate(name, genre, mark, year, date_seen) {
+    function validate(name, genre, mark, year, date_seen, review) {
         var error = "";
-        if (!$.trim(name)) {
+        if (!name) {
             $('#film-name').addClass('border-error');
             error += "Name can't be empty! ";
         } else {
-            $('#film-name').addClass('border-success');
+            if (name.length > 45) {
+                $('#film-name').addClass('border-error');
+                error += "Name can't be more than 45 symbols length! ";
+            } else {
+                $('#film-name').addClass('border-success');
+            }
         }
-        if (!$.trim(genre)) {
+        if (!genre) {
             $('#film-genre').addClass('border-error');
             error += "Genre can't be empty! ";
         } else {
-            $('#film-genre').addClass('border-success');
+            if (genre.length > 45) {
+                $('#film-genre').addClass('border-error');
+                error += "Genre can't be more than 45 symbols length! ";
+            } else {
+                $('#film-genre').addClass('border-success');
+            }
         }
         if (Math.floor(mark) != mark || !$.isNumeric(mark) || parseInt(mark) < 1 || parseInt(mark, 10) > 10) {
             $('#film-mark').addClass('border-error');
@@ -238,7 +248,13 @@ $(document).ready(function () {
                 $('#film-date-seen').addClass('border-success');
             }
         }
-        if ($.trim(error)) {
+        if (review.length > 400) {
+            $('#film-review').addClass('border-error');
+            error += "Review can't be more than 400 symbols length! ";
+        } else {
+            $('#film-review').addClass('border-success');
+        }
+        if (error) {
             $('#error').removeClass('non-visible');
             $('#error').text(error);
             return false;
