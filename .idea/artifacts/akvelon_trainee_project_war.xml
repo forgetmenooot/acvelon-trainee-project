@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="akvelon-trainee-project:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/akvelon_trainee_project_war</output-path>
+    <root id="archive" name="akvelon-trainee-project_war.war">
+      <element id="artifact" artifact-name="akvelon-trainee-project:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -58,9 +58,7 @@ $(document).ready(function () {
     $('#edit-modal').on('show.bs.modal', function () {
         var checkedCount = $('input:checkbox:checked').length;
         if (checkedCount > 1) {
-            $('#modal-text').text("Please, select just one row to be edited!");
-            $('#btn-save').addClass('non-visible');
-            $('#btn-add').addClass('non-visible');
+           getWarnPage();
         } else if (checkedCount == 1) {
             getEditPage();
         } else {
@@ -68,25 +66,23 @@ $(document).ready(function () {
         }
     });
 
+    function getWarnPage() {
+        $('#modal-text').text("Please, select just one row to be edited!");
+        $('#btn-save').addClass('non-visible');
+        $('#btn-add').addClass('non-visible');
+    }
+
     function getEditPage() {
         var id = $('input:checkbox:checked').attr('id');
         $.ajax({
             url: "/film/" + id,
             success: function (data) {
-                var name = data.name;
-                var genre = data.genre;
-                var mark = data.mark;
-                var year = data.year;
-                var date_seen = data.dateSeen;
-                var review = data.review;
-                $('#modal-text').append
-                ("<div class='form-group'><label for='film-name'>Name:</label><input type='text' class='form-control' id='film-name' value='" + name + "'>" +
-                    "<div class='form-group'><label for='film-genre'>Genre:</label><input type='text' class='form-control' id='film-genre' value='" + genre + "'>" +
-                    "<div class='form-group'><label for='film-year'>Year:</label><input type='text' class='form-control' id='film-year' value='" + year + "'>" +
-                    "<div class='form-group'><label for='film-mark'>Mark:</label><input type='number' class='form-control' min='1' max='10' step='1' id='film-mark' value='" + mark + "'>" +
-                    "<div class='form-group'><label for='film-date-seen'>Date seen:</label><input type='text' class='form-control' id='film-date-seen' readonly='readonly' value='" + date_seen + "'>" +
-                    "<div class='form-group'><label for='film-review'>Review:</label><textarea class='form-control' rows='3' id='film-review'>" + review + "</textarea>"
-                );
+                $('film-name').val(data.name);
+                $('film-genre').val(data.genre);
+                $('film-mark').val(data.mark);
+                $('film-year').val(data.year);
+                $('film-date-seen').val(data.dateSeen);
+                $('film-review').val(data.review);
                 enableEvents();
                 $('#btn-add').addClass('non-visible');
             },
@@ -95,14 +91,6 @@ $(document).ready(function () {
     }
 
     function getAddPage() {
-        $('#modal-text').append
-        ("<div class='form-group'><label for='film-name'>Name:</label><input type='text' class='form-control' id='film-name'>" +
-            "<div class='form-group'><label for='film-genre'>Genre:</label><input type='text' class='form-control' id='film-genre'>" +
-            "<div class='form-group'><label for='film-year'>Year:</label><input type='text' class='form-control' id='film-year'" +
-            "<div class='form-group'><label for='film-mark'>Mark:</label><input type='number' class='form-control' min='1' max='10' step='1' id='film-mark'" +
-            "<div class='form-group'><label for='film-date-seen'>Date seen:</label><input type='text' class='form-control' id='film-date-seen' readonly='readonly'>" +
-            "<div class='form-group'><label for='film-review'>Review:</label><textarea class='form-control' rows='3' id='film-review'></textarea>"
-        );
         enableEvents();
         $('#btn-save').addClass('non-visible');
     }
