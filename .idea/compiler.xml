@@ -24,9 +24,17 @@
         <processorPath useClasspath="true" />
         <module name="acvelon-trainee-project" />
       </profile>
+      <profile default="false" name="Annotation profile for akvelon-trainee-project" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="akvelon-trainee-project" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="acvelon-trainee-project" target="1.7" />
+      <module name="akvelon-trainee-project" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

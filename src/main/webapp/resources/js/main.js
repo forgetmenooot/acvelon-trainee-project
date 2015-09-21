@@ -58,7 +58,7 @@ $(document).ready(function () {
     $('#edit-modal').on('show.bs.modal', function () {
         var checkedCount = $('input:checkbox:checked').length;
         if (checkedCount > 1) {
-            $('#modal-text').val("Please, select just one row to be edited!");
+            $('#modal-text').text("Please, select just one row to be edited!");
             $('#btn-save').addClass('non-visible');
             $('#btn-add').addClass('non-visible');
         } else if (checkedCount == 1) {
@@ -89,11 +89,6 @@ $(document).ready(function () {
                 );
                 enableEvents();
                 $('#btn-add').addClass('non-visible');
-                $('body').keypress(function (eventCode) {
-                    if (eventCode.keyCode == 13) {
-                        $('#btn-save').click();
-                    }
-                });
             },
             timeout: 10000
         });
@@ -109,11 +104,6 @@ $(document).ready(function () {
             "<div class='form-group'><label for='film-review'>Review:</label><textarea class='form-control' rows='3' id='film-review'></textarea>"
         );
         enableEvents();
-        $('body').keypress(function (eventCode) {
-            if (eventCode.keyCode == 13) {
-                $("#btn-add").click();
-            }
-        });
         $('#btn-save').addClass('non-visible');
     }
 
