@@ -14,8 +14,7 @@ $(document).ready(function () {
                 } else {
                     $('#films').append("<tr><td colspan='7'><li class='list-group-item'>No films added!</li></td></tr>");
                 }
-            },
-            timeout: 10000
+            }
         });
     }
 
@@ -39,8 +38,7 @@ $(document).ready(function () {
                 url: "/film/delete",
                 success: function () {
                     refresh();
-                },
-                timeout: 10000
+                }
             });
         }
     });
@@ -86,8 +84,7 @@ $(document).ready(function () {
                 $('#film-date-seen').val(data.dateSeen);
                 $('#film-review').val(data.review);
                 $('#btn-add').addClass('non-visible');
-            },
-            timeout: 10000
+            }
         });
     }
 
@@ -96,106 +93,66 @@ $(document).ready(function () {
     }
 
     function cleanModalAndRefresh() {
-        $('#film-name').val('');
-        $('#film-genre').val('');
-        $('#film-mark').val('');
-        $('#film-year').val('');
-        $('#film-date-seen').val('');
-        $('#film-review').val('');
-        $('#error').empty();
+        cleanBorders();
+        $('#modal-text').trigger("reset");
+        $('#modal-text').removeClass('non-visible');
         $('#btn-save').removeClass('non-visible');
         $('#btn-add').removeClass('non-visible');
-        $('#modal-text').removeClass('non-visible');
-        $('#film-name').removeClass('border-error');
-        $('#film-genre').removeClass('border-error');
-        $('#film-mark').removeClass('border-error');
-        $('#film-year').removeClass('border-error');
-        $('#film-date-seen').removeClass('border-error');
-        $('#film-review').removeClass('border-error');
-        $('#film-name').removeClass('border-success');
-        $('#film-genre').removeClass('border-success');
-        $('#film-mark').removeClass('border-success');
-        $('#film-year').removeClass('border-success');
-        $('#film-date-seen').removeClass('border-success');
-        $('#film-review').removeClass('border-success');
         $('#error').addClass('non-visible');
+        $('#error').empty();
         $('#edit-modal').modal('hide');
         refresh();
     }
 
-    function createFilmAndReturn(id) {
+    function validateAndEdit(id, date_seen_validate, url) {
+        cleanBorders();
         var name = $.trim($('#film-name').val());
         var genre = $.trim($('#film-genre').val());
         var mark = $('#film-mark').val();
         var year = $('#film-year').val();
         var date_seen = $('#film-date-seen').val();
         var review = $.trim($('#film-review').val());
-        return {
-            "id": id,
-            "name": name,
-            "genre": genre,
-            "mark": mark,
-            "year": year,
-            "dateSeen": date_seen,
-            "review": review
-        };
+        if (validate(name, genre, mark, year, date_seen_validate, review)) {
+            var film = {
+                "id": id,
+                "name": name,
+                "genre": genre,
+                "mark": mark,
+                "year": year,
+                "dateSeen": date_seen,
+                "review": review
+            };
+            $.ajax({
+                type: "POST",
+                url: url,
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify(film),
+                success: function () {
+                    cleanModalAndRefresh();
+                },
+                error: function (data) {
+                    $('#error').removeClass('non-visible');
+                    $('#error').text(data.responseText);
+                }
+            });
+        }
     }
 
     $('#btn-save').click(function () {
-        var film = createFilmAndReturn($('input:checkbox:checked').attr('id'));
-        var name = $.trim($('#film-name').val());
-        var genre = $.trim($('#film-genre').val());
-        var mark = $('#film-mark').val();
-        var year = $('#film-year').val();
-        var review = $.trim($('#film-review').val());
-        if (validate(name, genre, mark, year, -1, review)) {
-            $.ajax({
-                type: "POST",
-                url: "/film/update",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                data: JSON.stringify(film),
-                success: function () {
-                    cleanModalAndRefresh();
-                },
-                error: function (data) {
-                    $('#error').removeClass('non-visible');
-                    $('#error').text(data.responseText);
-                },
-                timeout: 10000
-            });
-        }
+        var id = $('input:checkbox:checked').attr('id');
+        var url = "/film/update";
+        var date_seen_validate = -1;
+        validateAndEdit(id, date_seen_validate, url)
     });
 
     $('#btn-add').click(function () {
-        var film = createFilmAndReturn(-1);
-        var name = $.trim($('#film-name').val());
-        var genre = $.trim($('#film-genre').val());
-        var mark = $('#film-mark').val();
-        var year = $('#film-year').val();
-        var date_seen = $('#film-date-seen').val();
-        var review = $.trim($('#film-review').val());
-        if (validate(name, genre, mark, year, date_seen, review)) {
-            $.ajax({
-                type: "POST",
-                url: "/film",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                data: JSON.stringify(film),
-                success: function () {
-                    cleanModalAndRefresh();
-                },
-                error: function (data) {
-                    $('#error').removeClass('non-visible');
-                    $('#error').text(data.responseText);
-                },
-                timeout: 10000
-            });
-        }
+        var id = -1;
+        var url = "/film";
+        var date_seen_validate = $('#film-date-seen').val();
+        validateAndEdit(id, date_seen_validate, url)
     });
 
     $('#film-date-seen').datepicker({dateFormat: "yy-mm-dd", maxDate: "+1w"});
@@ -204,56 +161,21 @@ $(document).ready(function () {
         cleanModalAndRefresh();
     });
 
+    function cleanBorders() {
+        $('#modal-text input').each(function () {
+            $('#' + $(this).attr('id')).removeClass('border-error border-success');
+        });
+        $('#film-review').removeClass('border-error border-success');
+    }
+
     function validate(name, genre, mark, year, date_seen, review) {
         var error = "";
-        if (!name) {
-            $('#film-name').addClass('border-error');
-            error += "Name can't be empty! ";
-        } else {
-            if (name.length > 45) {
-                $('#film-name').addClass('border-error');
-                error += "Name can't be more than 45 symbols length! ";
-            } else {
-                $('#film-name').addClass('border-success');
-            }
-        }
-        if (!genre) {
-            $('#film-genre').addClass('border-error');
-            error += "Genre can't be empty! ";
-        } else {
-            if (genre.length > 45) {
-                $('#film-genre').addClass('border-error');
-                error += "Genre can't be more than 45 symbols length! ";
-            } else {
-                $('#film-genre').addClass('border-success');
-            }
-        }
-        if (Math.floor(mark) != mark || !$.isNumeric(mark) || parseInt(mark) < 1 || parseInt(mark, 10) > 10) {
-            $('#film-mark').addClass('border-error');
-            error += "Mark must be a number from 1 to 10! ";
-        } else {
-            $('#film-mark').addClass('border-success');
-        }
-        if (Math.floor(year) != year || !$.isNumeric(year) || parseInt(year) < 1901 || parseInt(year, 10) > 2015) {
-            $('#film-year').addClass('border-error');
-            error += "Year must be a number from 1901 to 2015! ";
-        } else {
-            $('#film-year').addClass('border-success');
-        }
-        if (date_seen != -1) {
-            if (!$.trim(date_seen)) {
-                $('#film-date-seen').addClass('border-error');
-                error += "Date can't be empty! ";
-            } else {
-                $('#film-date-seen').addClass('border-success');
-            }
-        }
-        if (review.length > 400) {
-            $('#film-review').addClass('border-error');
-            error += "Review can't be more than 400 symbols length! ";
-        } else {
-            $('#film-review').addClass('border-success');
-        }
+        error += Validation.validName(name);
+        error += Validation.validGenre(genre);
+        error += Validation.validMark(mark);
+        error += Validation.validYear(year);
+        error += Validation.validDateSeen(date_seen);
+        error += Validation.validReview(review);
         if (error) {
             $('#error').removeClass('non-visible');
             $('#error').text(error);

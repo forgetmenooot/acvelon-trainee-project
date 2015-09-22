@@ -4,7 +4,7 @@ import com.springapp.mvc.bean.FilmBean;
 import com.springapp.mvc.domain.Film;
 import com.springapp.mvc.exception.ValidatorException;
 import com.springapp.mvc.service.IFilmService;
-import com.springapp.mvc.util.impl.FilmValidator;
+import com.springapp.mvc.util.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -18,6 +18,9 @@ import java.util.UUID;
  */
 @Controller
 public class FilmController {
+
+    @Autowired
+    private IValidator<Film, FilmBean> filmValidator;
 
     @Autowired
     private IFilmService filmService;
@@ -50,14 +53,14 @@ public class FilmController {
     @RequestMapping(value = "/film/update", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void update(@RequestBody FilmBean filmBean) {
-        Film film = new FilmValidator(filmBean).validate();
+        Film film = filmValidator.validate(filmBean);
         filmService.update(film);
     }
 
     @RequestMapping(value = "/film", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void add(@RequestBody FilmBean filmBean) {
-        Film film = new FilmValidator(filmBean).validate();
+        Film film = filmValidator.validate(filmBean);
         film.setId(UUID.randomUUID().hashCode());
         filmService.add(film);
     }

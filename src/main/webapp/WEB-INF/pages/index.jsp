@@ -45,7 +45,7 @@
                 <div class="modal-body">
                     <div class="alert alert-danger non-visible" id="error" role="alert"></div>
 
-                    <div id="modal-text">
+                    <form id="modal-text">
                         <div class="form-group">
                             <label for="film-name">Name:</label>
                             <input type="text" class="form-control" id="film-name">
@@ -71,7 +71,7 @@
                             <textarea class="form-control" rows="3" id="film-review"></textarea>
                         </div>
 
-                    </div>
+                    </form>
                 </div>
 
                 <div class="modal-footer">
@@ -84,7 +84,7 @@
     </div>
 
 </t:template>
-
+<script src="<c:url value="/resources/js/validation.js"/>"></script>
 <script src="<c:url value="/resources/js/main.js"/>"></script>
 <script src="<c:url value="/resources/js/jquery-ui.js"/>"></script>
 <script src="<c:url value="/resources/js/jquery.tmpl.js"/>"></script>

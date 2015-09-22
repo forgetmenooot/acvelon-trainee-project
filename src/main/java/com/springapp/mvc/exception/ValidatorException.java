@@ -5,6 +5,10 @@ package com.springapp.mvc.exception;
  */
 public class ValidatorException extends RuntimeException {
 
+    public ValidatorException() {
+        super();
+    }
+
     public ValidatorException(String error) {
         super(error);
     }

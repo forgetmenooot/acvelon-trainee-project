@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
  */
 public class Utils {
 
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+
     public static boolean isInteger(String str) {
         try {
             Integer.parseInt(str);
@@ -26,7 +28,7 @@ public class Utils {
     }
 
     public static boolean isValidDate(String str) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         try {
             dateFormat.parse(str);
         } catch (ParseException ex) {

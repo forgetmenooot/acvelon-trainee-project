@@ -1,4 +1,9 @@
+#MAC OS
 .DS_Store
-target/
-out/
+
+#Intellij
+/target/
+/out/
+*.iml
 .idea/
+/_artifacts_temp/

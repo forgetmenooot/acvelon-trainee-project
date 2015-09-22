@@ -8,6 +8,7 @@ import com.springapp.mvc.util.IValidator;
 import com.springapp.mvc.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,19 +17,14 @@ import java.util.Date;
 /**
  * Created by Y. Vovk on 20.09.15.
  */
-public class FilmValidator implements IValidator<Film> {
+@Component
+public class FilmValidator implements IValidator<Film, FilmBean> {
 
-    private FilmBean bean;
-
-    public FilmValidator(FilmBean bean) {
-        this.bean = bean;
-    }
-
-    private class FilmConverter implements IConverter<Film> {
+    private class FilmConverter implements IConverter<Film, FilmBean> {
 
         private final Logger logger = LoggerFactory.getLogger(FilmConverter.class);
 
-        public Film convert() {
+        public Film convert(FilmBean bean) {
             Film film = new Film();
 
             film.setId((Integer.parseInt(bean.getId())));
@@ -51,7 +47,7 @@ public class FilmValidator implements IValidator<Film> {
         }
     }
 
-    public Film validate() {
+    public Film validate(FilmBean bean) {
         StringBuilder builder = new StringBuilder();
 
         if (Utils.isEmptyString(bean.getName())) {
@@ -87,6 +83,6 @@ public class FilmValidator implements IValidator<Film> {
             throw new ValidatorException(error);
         }
 
-        return new FilmConverter().convert();
+        return new FilmConverter().convert(bean);
     }
 }

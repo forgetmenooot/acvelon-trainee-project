@@ -3,7 +3,7 @@ package com.springapp.mvc.util;
 /**
  * Created by Y. Vovk on 21.09.15.
  */
-public interface IConverter<T> {
+public interface IConverter<DOMAIN, T> {
 
-    T convert();
+    DOMAIN convert(T obj);
 }
