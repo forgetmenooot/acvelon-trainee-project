@@ -5,5 +5,5 @@
 /target/
 /out/
 *.iml
-.idea/
-/_artifacts_temp/
+/.idea/
+/__artifacts_temp/
