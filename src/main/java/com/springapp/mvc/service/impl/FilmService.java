@@ -3,6 +3,7 @@ package com.springapp.mvc.service.impl;
 import com.springapp.mvc.domain.Film;
 import com.springapp.mvc.repository.IFilmRepository;
 import com.springapp.mvc.service.IFilmService;
+import com.springapp.mvc.validation.AbstractValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,20 +21,24 @@ public class FilmService implements IFilmService {
     @Autowired
     private IFilmRepository filmRepository;
 
+    @Autowired
+    private AbstractValidator<Film> filmValidator;
+
     @Override
     public Film get(Integer id) {
         return filmRepository.get(id);
     }
 
     @Override
-    public List<Film> getList() {
-        List<Film> films = filmRepository.getList();
+    public List<Film> getAll() {
+        List<Film> films = filmRepository.getAll();
         Collections.sort(films);
         return films;
     }
 
     @Override
     public void add(Film entity) {
+        filmValidator.validate(entity);
         filmRepository.add(entity);
     }
 
@@ -44,11 +49,12 @@ public class FilmService implements IFilmService {
 
     @Override
     public void update(Film entity) {
+        filmValidator.validate(entity);
         filmRepository.update(entity);
     }
 
     @Override
-    public void delete(Integer[] ids) {
+    public void deleteAll(Integer[] ids) {
         for (Integer id : ids) {
             Film film = filmRepository.get(id);
             filmRepository.delete(film);

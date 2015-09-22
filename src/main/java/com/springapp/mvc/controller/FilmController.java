@@ -1,10 +1,8 @@
 package com.springapp.mvc.controller;
 
-import com.springapp.mvc.bean.FilmBean;
 import com.springapp.mvc.domain.Film;
-import com.springapp.mvc.exception.ValidatorException;
+import com.springapp.mvc.exception.ValidationException;
 import com.springapp.mvc.service.IFilmService;
-import com.springapp.mvc.util.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -20,27 +18,24 @@ import java.util.UUID;
 public class FilmController {
 
     @Autowired
-    private IValidator<Film, FilmBean> filmValidator;
-
-    @Autowired
     private IFilmService filmService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getIndex() {
+    public String getIndexPage() {
         return "index";
     }
 
     @RequestMapping(value = "/films", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<Film> get() {
-        return filmService.getList();
+    public List<Film> getAll() {
+        return filmService.getAll();
     }
 
     @RequestMapping(value = "film/delete", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void deleteAll(@RequestBody Integer[] ids) {
-        filmService.delete(ids);
+        filmService.deleteAll(ids);
     }
 
     @RequestMapping(value = "/film/{id}", method = RequestMethod.GET)
@@ -52,15 +47,13 @@ public class FilmController {
 
     @RequestMapping(value = "/film/update", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void update(@RequestBody FilmBean filmBean) {
-        Film film = filmValidator.validate(filmBean);
+    public void update(@RequestBody Film film) {
         filmService.update(film);
     }
 
     @RequestMapping(value = "/film", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public void add(@RequestBody FilmBean filmBean) {
-        Film film = filmValidator.validate(filmBean);
+    public void add(@RequestBody Film film) {
         film.setId(UUID.randomUUID().hashCode());
         filmService.add(film);
     }
@@ -68,7 +61,7 @@ public class FilmController {
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public String handleException(ValidatorException exc) {
+    public String handleException(ValidationException exc) {
         return exc.getMessage();
     }
 

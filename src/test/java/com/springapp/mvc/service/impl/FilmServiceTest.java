@@ -43,7 +43,7 @@ public class FilmServiceTest {
         List<Film> films = new ArrayList<>();
         films.add(testFilm);
 
-        Mockito.when(filmRepository.getList()).thenReturn(films);
+        Mockito.when(filmRepository.getAll()).thenReturn(films);
         Mockito.when(filmRepository.get(1)).thenReturn(testFilm);
     }
 
@@ -61,7 +61,7 @@ public class FilmServiceTest {
         Film testFilm = new Film();
         testFilm.setId(1);
 
-        List<Film> result = filmService.getList();
+        List<Film> result = filmService.getAll();
         assertEquals(result.get(0), testFilm);
     }
 
@@ -97,7 +97,7 @@ public class FilmServiceTest {
         Film testFilm2 = new Film();
         testFilm2.setId(1);
 
-        filmService.delete(new Integer[]{1});
+        filmService.deleteAll(new Integer[]{1});
         Mockito.verify(filmRepository).delete(testFilm2);
     }
 }

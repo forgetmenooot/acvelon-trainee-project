@@ -1,9 +1,14 @@
 package com.springapp.mvc.domain;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -14,26 +19,53 @@ import java.sql.Date;
 @Table
 public class Film implements Serializable, Comparable<Film> {
 
+    private static final String NAME_EMPTY = "Name can't be empty! ";
+    private static final String GENRE_EMPTY = "Genre can't be empty! ";
+    private static final String DATE_EMPTY = "Date can't be empty! ";
+    private static final String GENRE_SIZE = "Genre can't be more than 45 symbols length! ";
+    private static final String NAME_SIZE = "Name can't be more than 45 symbols length! ";
+    private static final String MARK_SIZE = "Mark must be a number from 9 to 10! ";
+    private static final String YEAR_SIZE = "Year must be from 1901 to 2015! ";
+    private static final String REVIEW_SIZE = "Review can't be more than 400 symbols length! ";
+
+    private static final int TEXT_MAX = 45;
+    private static final int YEAR_MIN = 1901;
+    private static final int YEAR_MAX = 2015;
+    private static final int MARK_MIN = 1;
+    private static final int MARK_MAX = 10;
+    private static final int REVIEW_MAX = 400;
+
     @Id
     @Column
+    @NotNull
     private Integer id;
 
     @Column
+    @NotBlank(message = NAME_EMPTY)
+    @Size(max = TEXT_MAX, message = NAME_SIZE)
     private String name;
 
     @Column
+    @NotBlank(message = GENRE_EMPTY)
+    @Size(max = TEXT_MAX, message = GENRE_SIZE)
     private String genre;
 
     @Column
+    @NotNull(message = YEAR_SIZE)
+    @Range(min = YEAR_MIN, max = YEAR_MAX, message = YEAR_SIZE)
     private Integer year;
 
     @Column
+    @NotNull(message = MARK_SIZE)
+    @Range(min = MARK_MIN, max = MARK_MAX, message = MARK_SIZE)
     private Integer mark;
 
     @Column(name = "date_seen")
+    @NotNull(message = DATE_EMPTY)
     private Date dateSeen;
 
     @Column
+    @Size(max = REVIEW_MAX, message = REVIEW_SIZE)
     private String review;
 
     public Integer getYear() {

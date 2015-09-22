@@ -31,6 +31,9 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="validator"
+          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
         <property name="hibernateProperties">

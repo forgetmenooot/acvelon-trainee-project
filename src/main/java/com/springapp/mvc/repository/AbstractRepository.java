@@ -10,14 +10,14 @@ import java.util.List;
  * Created by Y. Vovk on 17.09.15.
  */
 @Repository
-public abstract class AbstractFilmRepository<T> implements IRepository<T> {
+public abstract class AbstractRepository<T> implements IRepository<T> {
 
     @Autowired
     protected SessionFactory sessionFactory;
 
     private Class<T> type;
 
-    public AbstractFilmRepository(Class<T> type) {
+    public AbstractRepository(Class<T> type) {
         this.type = type;
     }
 
@@ -27,7 +27,7 @@ public abstract class AbstractFilmRepository<T> implements IRepository<T> {
     }
 
     @Override
-    public List<T> getList() {
+    public List<T> getAll() {
         return (List<T>) sessionFactory.getCurrentSession().createCriteria(type).list();
     }
 

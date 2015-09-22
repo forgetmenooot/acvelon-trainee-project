@@ -9,7 +9,7 @@ public interface IRepository<T> {
 
     T get(Integer id);
 
-    List<T> getList();
+    List<T> getAll();
 
     void add(T entity);
 
