@@ -1,9 +1,10 @@
 package com.springapp.mvc.service.impl;
 
 import com.springapp.mvc.domain.Film;
+import com.springapp.mvc.exception.ValidationException;
 import com.springapp.mvc.repository.IFilmRepository;
 import com.springapp.mvc.service.IFilmService;
-import org.junit.Before;
+import com.springapp.mvc.validation.IValidator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kubek2k.springockito.annotations.ReplaceWithMock;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,47 +37,84 @@ public class FilmServiceTest {
     @Autowired
     private IFilmRepository filmRepository;
 
-    @Before
-    public void setUp() throws Exception {
+    @Autowired
+    private IValidator<Film> filmValidator;
+
+    @Test
+    public void testGet() {
+        Film testFilm = new Film();
+        testFilm.setId(1);
+
+        Mockito.when(filmRepository.get(1)).thenReturn(testFilm);
+        Film result = filmService.get(1);
+        assertEquals(result, testFilm);
+    }
+
+    @Test
+    public void testGetAll() {
         Film testFilm = new Film();
         testFilm.setId(1);
 
         List<Film> films = new ArrayList<>();
         films.add(testFilm);
 
-        Mockito.when(filmRepository.getAll()).thenReturn(films);
-        Mockito.when(filmRepository.get(1)).thenReturn(testFilm);
-    }
-
-    @Test
-    public void testGet() throws Exception {
-        Film testFilm = new Film();
-        testFilm.setId(1);
-
-        Film result = filmService.get(1);
-        assertEquals(result, testFilm);
-    }
-
-    @Test
-    public void testGetList() throws Exception {
-        Film testFilm = new Film();
-        testFilm.setId(1);
-
+        Mockito.when(filmRepository.getAll()).thenReturn(new ArrayList<>(films));
         List<Film> result = filmService.getAll();
         assertEquals(result.get(0), testFilm);
     }
 
-    @Test
-    public void testAdd() throws Exception {
+    @Test(expected = ValidationException.class)
+    public void testAddValidationError() {
         Film testFilm2 = new Film();
         testFilm2.setId(2);
+        testFilm2.setGenre("drama");
+        testFilm2.setName("Birdman");
+        testFilm2.setReview("Great!");
 
-        filmService.add(testFilm2);
-        Mockito.verify(filmRepository).add(testFilm2);
+        filmValidator.validate(testFilm2);
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testAdd() {
+        Film testFilm2 = new Film();
+        testFilm2.setId(2);
+        testFilm2.setGenre("drama");
+        testFilm2.setName("Birdman");
+        testFilm2.setReview("Great!");
+        testFilm2.setYear(2014);
+        testFilm2.setMark(10);
+        testFilm2.setDateSeen(new Date(System.currentTimeMillis()));
+
+        filmValidator.validate(testFilm2);
+    }
+
+    @Test
+    public void testUpdate() {
+        Film testFilm2 = new Film();
+        testFilm2.setId(2);
+        testFilm2.setGenre("drama");
+        testFilm2.setName("Birdman");
+        testFilm2.setReview("Great!");
+        testFilm2.setYear(2014);
+        testFilm2.setMark(10);
+        testFilm2.setDateSeen(new Date(System.currentTimeMillis()));
+
+        filmValidator.validate(testFilm2);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void testUpdateValidationError() {
+        Film testFilm2 = new Film();
+        testFilm2.setId(2);
+        testFilm2.setGenre("drama");
+        testFilm2.setName("Birdman");
+        testFilm2.setReview("Great!");
+
+        filmValidator.validate(testFilm2);
+    }
+
+    @Test
+    public void testDelete() {
         Film testFilm2 = new Film();
         testFilm2.setId(2);
 
@@ -84,16 +123,7 @@ public class FilmServiceTest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
-        Film testFilm2 = new Film();
-        testFilm2.setId(2);
-
-        filmService.update(testFilm2);
-        Mockito.verify(filmRepository).update(testFilm2);
-    }
-
-    @Test
-    public void testDelete1() throws Exception {
+    public void testDeleteAll() {
         Film testFilm2 = new Film();
         testFilm2.setId(1);
 

@@ -6,6 +6,9 @@
     http://www.mockito.org/spring/mockito http://www.mockito.org/spring/mockito.xsd">
 
     <mockito:mock id="filmRepository" class="com.springapp.mvc.repository.impl.FilmRepository"/>
+    <bean id="validator"
+          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+    <bean id="filmValidator" class="com.springapp.mvc.validation.FilmValidator"/>
     <bean id="filmService" class="com.springapp.mvc.service.impl.FilmService"/>
 
 </beans>

@@ -8,5 +8,4 @@ import com.springapp.mvc.domain.Film;
 public interface IFilmService extends IService<Film> {
 
     void deleteAll(Integer[] ids);
-
 }

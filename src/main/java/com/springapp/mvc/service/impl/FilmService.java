@@ -3,7 +3,7 @@ package com.springapp.mvc.service.impl;
 import com.springapp.mvc.domain.Film;
 import com.springapp.mvc.repository.IFilmRepository;
 import com.springapp.mvc.service.IFilmService;
-import com.springapp.mvc.validation.AbstractValidator;
+import com.springapp.mvc.validation.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +22,7 @@ public class FilmService implements IFilmService {
     private IFilmRepository filmRepository;
 
     @Autowired
-    private AbstractValidator<Film> filmValidator;
+    private IValidator<Film> filmValidator;
 
     @Override
     public Film get(Integer id) {
