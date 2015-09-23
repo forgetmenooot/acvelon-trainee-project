@@ -17,7 +17,7 @@ import java.sql.Date;
  */
 @Entity
 @Table
-public class Film implements Serializable, Comparable<Film> {
+public class Film implements Serializable {
 
     private static final String NAME_EMPTY = "Name can't be empty! ";
     private static final String GENRE_EMPTY = "Genre can't be empty! ";
@@ -157,8 +157,4 @@ public class Film implements Serializable, Comparable<Film> {
                 '}';
     }
 
-    @Override
-    public int compareTo(Film film) {
-        return this.getName().compareTo(film.getName());
-    }
 }
