@@ -2,5 +2,5 @@
 
 - create schema from dump.sql
 
-- deploy it in tomcat
+- deploy it to tomcat
 
