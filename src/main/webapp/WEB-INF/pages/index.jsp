@@ -4,6 +4,8 @@
 <link href="<c:url value="/resources/css/jquery-ui.css"/>" rel="stylesheet"/>
 <t:template>
 
+    <input type="hidden" value="${pageContext.request.contextPath}" id="contex-path">
+
     <div class="friends-list">
 
         <div class="buttons-group">

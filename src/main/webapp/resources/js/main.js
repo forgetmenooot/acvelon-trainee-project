@@ -4,15 +4,16 @@ $(document).ready(function () {
 
     function refresh() {
         $('#films').empty();
+        var context_path = $('#contex-path').val();
         $.ajax({
-            url: "/films",
+            url: context_path + "/films",
             success: function (data) {
                 if (data.length > 0) {
                     var markup = "<tr id='focus_${id}'><td>${name}</td><td>${genre}</td><td>${year}</td><td>${mark}</td><td>${dateSeen}</td><td>${review}</td><td><input type='checkbox' id='${id}'></td></tr>";
                     $.template("filmsTemplate", markup);
                     $.tmpl("filmsTemplate", data).appendTo('#films');
                 } else {
-                    $('#films').append("<tr><td colspan='7'><li class='list-group-item'>No films added!</li></td></tr>");
+                    $('#films').append("<li class='list-group-item'>No films added!</li>");
                 }
             }
         });
@@ -26,7 +27,7 @@ $(document).ready(function () {
         var ids = $('input:checkbox:checked').map(function () {
             return $(this).attr('id');
         }).get();
-
+        var context_path = $('#contex-path').val();
         if (ids.length > 0) {
             $.ajax({
                 type: "POST",
@@ -35,7 +36,7 @@ $(document).ready(function () {
                     "Content-Type": "application/json"
                 },
                 data: JSON.stringify(ids),
-                url: "/film/delete",
+                url: context_path + "/film/delete",
                 success: function () {
                     refresh();
                 }
@@ -73,9 +74,10 @@ $(document).ready(function () {
     }
 
     function getEditPage() {
+        var context_path = $('#contex-path').val();
         var id = $('input:checkbox:checked').attr('id');
         $.ajax({
-            url: "/film/" + id,
+            url: context_path + "/film/" + id,
             success: function (data) {
                 $('#film-name').val(data.name);
                 $('#film-genre').val(data.genre);
@@ -112,6 +114,7 @@ $(document).ready(function () {
         var year = $('#film-year').val();
         var date_seen = $('#film-date-seen').val();
         var review = $.trim($('#film-review').val());
+        var context_path = $('#contex-path').val();
         if (validate(name, genre, mark, year, date_seen_validate, review)) {
             var film = {
                 "id": id,
@@ -124,7 +127,7 @@ $(document).ready(function () {
             };
             $.ajax({
                 type: "POST",
-                url: url,
+                url: context_path + url,
                 headers: {
                     "Accept": "application/json",
                     "Content-Type": "application/json"
