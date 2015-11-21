@@ -4,7 +4,7 @@
 <link href="<c:url value="/resources/css/jquery-ui.css"/>" rel="stylesheet"/>
 <t:template>
 
-    <input type="hidden" value="${pageContext.request.contextPath}" id="contex-path">
+    <input type="hidden" value="${pageContext.request.contextPath}" id="context-path">
 
     <div class="friends-list">
 
@@ -50,7 +50,7 @@
                     <form id="modal-text">
                         <div class="form-group">
                             <label for="film-name">Name:</label>
-                            <input type="text" class="form-control" id="film-name">
+                            <input type="text" class="form-control" id="film-name" autofocus>
                         </div>
                         <div class="form-group">
                             <label for="film-genre">Genre:</label>

@@ -1,7 +1,8 @@
-package com.springapp.mvc.validation;
+package com.springapp.mvc.validation.impl;
 
 import com.springapp.mvc.domain.Film;
 import com.springapp.mvc.exception.ValidationException;
+import com.springapp.mvc.validation.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

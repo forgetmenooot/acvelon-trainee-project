@@ -13,8 +13,8 @@ import java.util.List;
 /**
  * Created by Y. Vovk on 17.09.15.
  */
-@Service
 @Transactional
+@Service
 public class FilmService implements IFilmService {
 
     @Autowired

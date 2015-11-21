@@ -1,19 +1,30 @@
 $(document).ready(function () {
 
+    var context_path = $('#context-path').val();
+    var films = $('#films');
+    var error = $('#error');
+
     refresh();
 
     function refresh() {
-        $('#films').empty();
-        var context_path = $('#contex-path').val();
+        films.empty();
         $.ajax({
             url: context_path + "/films",
             success: function (data) {
                 if (data.length > 0) {
-                    var markup = "<tr id='focus_${id}'><td>${name}</td><td>${genre}</td><td>${year}</td><td>${mark}</td><td>${dateSeen}</td><td>${review}</td><td><input type='checkbox' id='${id}'></td></tr>";
+                    var markup = "<tr id='focus_${id}'>" +
+                        "<td>${name}</td>" +
+                        "<td>${genre}</td>" +
+                        "<td>${year}</td>" +
+                        "<td>${mark}</td>" +
+                        "<td>${dateSeen}</td>" +
+                        "<td>${review}</td>" +
+                        "<td><input type='checkbox' id='${id}'></td>" +
+                        "</tr>";
                     $.template("filmsTemplate", markup);
                     $.tmpl("filmsTemplate", data).appendTo('#films');
                 } else {
-                    $('#films').append("<li class='list-group-item'>No films added!</li>");
+                    films.append("<li class='list-group-item'>No films added!</li>");
                 }
             }
         });
@@ -27,7 +38,7 @@ $(document).ready(function () {
         var ids = $('input:checkbox:checked').map(function () {
             return $(this).attr('id');
         }).get();
-        var context_path = $('#contex-path').val();
+
         if (ids.length > 0) {
             $.ajax({
                 type: "POST",
@@ -44,12 +55,12 @@ $(document).ready(function () {
         }
     });
 
-    $('#films').on('mouseover', 'tr', function () {
+    films.on('mouseover', 'tr', function () {
         var id = $(this).attr('id');
         $('#' + id).addClass('focus-color');
     });
 
-    $('#films').on('mouseout', 'tr', function () {
+    films.on('mouseout', 'tr', function () {
         var id = $(this).attr('id');
         $('#' + id).removeClass('focus-color');
     });
@@ -69,12 +80,11 @@ $(document).ready(function () {
         $('#modal-text').addClass('non-visible');
         $('#btn-save').addClass('non-visible');
         $('#btn-add').addClass('non-visible');
-        $('#error').removeClass('non-visible');
-        $('#error').text("Please, select just one row to be edited!");
+        error.removeClass('non-visible');
+        error.text("Please, select just one row to be edited!");
     }
 
     function getEditPage() {
-        var context_path = $('#contex-path').val();
         var id = $('input:checkbox:checked').attr('id');
         $.ajax({
             url: context_path + "/film/" + id,
@@ -96,12 +106,11 @@ $(document).ready(function () {
 
     function cleanModalAndRefresh() {
         cleanBorders();
-        $('#modal-text').trigger("reset");
-        $('#modal-text').removeClass('non-visible');
+        $('#modal-text').trigger("reset").removeClass('non-visible');
         $('#btn-save').removeClass('non-visible');
         $('#btn-add').removeClass('non-visible');
-        $('#error').addClass('non-visible');
-        $('#error').empty();
+        error.addClass('non-visible');
+        error.empty();
         $('#edit-modal').modal('hide');
         refresh();
     }
@@ -114,7 +123,6 @@ $(document).ready(function () {
         var year = $('#film-year').val();
         var date_seen = $('#film-date-seen').val();
         var review = $.trim($('#film-review').val());
-        var context_path = $('#contex-path').val();
         if (validate(name, genre, mark, year, date_seen_validate, review)) {
             var film = {
                 "id": id,
@@ -137,8 +145,8 @@ $(document).ready(function () {
                     cleanModalAndRefresh();
                 },
                 error: function (data) {
-                    $('#error').removeClass('non-visible');
-                    $('#error').text(data.responseText);
+                    error.removeClass('non-visible');
+                    error.text(data.responseText);
                 }
             });
         }
@@ -165,7 +173,7 @@ $(document).ready(function () {
     });
 
     function cleanBorders() {
-        $('#modal-text input').each(function () {
+        $('#modal-text').find('input').each(function () {
             $('#' + $(this).attr('id')).removeClass('border-error border-success');
         });
         $('#film-review').removeClass('border-error border-success');
@@ -180,8 +188,8 @@ $(document).ready(function () {
         error += Validation.validDateSeen(date_seen);
         error += Validation.validReview(review);
         if (error) {
-            $('#error').removeClass('non-visible');
-            $('#error').text(error);
+            error.removeClass('non-visible');
+            error.text(error);
             return false;
         }
         return true;
