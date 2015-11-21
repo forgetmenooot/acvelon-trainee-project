@@ -1,4 +1,5 @@
 function Validation() {
+
 }
 
 Validation.validName = function (name) {
